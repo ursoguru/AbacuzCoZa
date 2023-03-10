@@ -100,133 +100,146 @@
 
 
     protected override void OnInitialized()
-    {
-        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 1, 1), 7.0F));
-        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 3, 25), 8.0F));
-
-
-        foreach (var monthYear in primeRateDates)
         {
-            Console.WriteLine(monthYear.date);
-        }
-        Console.WriteLine(primeRateDates[0].date);
-
-    }
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 1, 1), 7.0F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 3, 25), 8.0F));
 
 
-
-    class PrimeRateDate
-    {
-        public DateOnly date;
-        public float rate;
-
-        public PrimeRateDate(DateOnly _date, float _rate)
-        {
-            date = _date;
-            rate = _rate;
-        }
-    }
-
-    List<PrimeRateDate> primeRateDates = new List<PrimeRateDate>();
-
-
-
-
-
-
-    List<string> monthYears = new List<string>() { "2023 Jan", "2023 Feb", "2023 Mar", "2023 Apr" };
-
-
-
-
-
-
-    struct MonthSelections
-    {
-        public int apartments;
-        public int stories;
-        public int sinks;
-        public int dishwashers;
-        public int washingmachines;
-        public int showers;
-        public int bathtubs;
-        public int washbasins;
-        public int bidets;
-        public string toilet;
-        public string pipe;
-        public float pipewidth;
-        public float pipelength;
-        public string monthYear;
-
-
-        public MonthSelections(int ten, int two, int one, int zero, string toiletSystem, string pipeSystem, float pipeW, float pipeL, string mYear)
-        {
-            apartments = ten;
-            stories = two;
-            sinks = two;
-            dishwashers = one;
-            washingmachines = one;
-            showers = one;
-            bathtubs = one;
-            washbasins = two;
-            bidets = zero;
-            toilet = toiletSystem;
-            pipe = pipeSystem;
-            pipelength = pipeL;
-            pipewidth = pipeW;
-            monthYear = mYear;
+            foreach (var monthYear in primeRateDates)
+            {
+                Console.WriteLine(monthYear.date);
+            }
+            Console.WriteLine(primeRateDates[0].date);
+            calculateAverage();
 
         }
+
+
+
+        class PrimeRateDate
+        {
+            public DateOnly date;
+            public float rate;
+
+            public PrimeRateDate(DateOnly _date, float _rate)
+            {
+                date = _date;
+                rate = _rate;
+            }
+        }
+
+        List<PrimeRateDate> primeRateDates = new List<PrimeRateDate>();
+
+
+
+
+
+
+        List<string> monthYears = new List<string>() { "2023 Jan", "2023 Feb", "2023 Mar", "2023 Apr" };
+
+
+
+
+
+
+        struct MonthSelections
+        {
+            public int apartments;
+            public int stories;
+            public int sinks;
+            public int dishwashers;
+            public int washingmachines;
+            public int showers;
+            public int bathtubs;
+            public int washbasins;
+            public int bidets;
+            public string toilet;
+            public string pipe;
+            public float pipewidth;
+            public float pipelength;
+            public string monthYear;
+
+
+            public MonthSelections(int ten, int two, int one, int zero, string toiletSystem, string pipeSystem, float pipeW, float pipeL, string mYear)
+            {
+                apartments = ten;
+                stories = two;
+                sinks = two;
+                dishwashers = one;
+                washingmachines = one;
+                showers = one;
+                bathtubs = one;
+                washbasins = two;
+                bidets = zero;
+                toilet = toiletSystem;
+                pipe = pipeSystem;
+                pipelength = pipeL;
+                pipewidth = pipeW;
+                monthYear = mYear;
+
+            }
+        }
+
+
+
+        float primeRate = 0;
+
+
+
+
+
+
+
+
+        MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
+        //monthSelections.stories = 10;
+
+
+        public void calculateAverage()
+        {
+
+            int day = 0;
+            float rate = 0.0F;
+            int dayAccumulator = 0;
+            float rateAccumulator = 0.0F;
+
+            DateOnly workingDate;
+
+            DateOnly firstDayOfMonth = new DateOnly(2023, 2, 1);
+
+            int daysInMonth = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
+
+            Console.WriteLine(daysInMonth);
+
+            foreach (var monthYear in primeRateDates)
+            {
+                if (monthYear.date < firstDayOfMonth)
+                {
+                    workingDate = monthYear.date;
+                    rate = monthYear.rate;
+                }
+            }
+
+
+
+            primeRate = rate;
+
+
+
+
+
+        }
+
+
+
+        void OnSelectMonthYear(ChangeEventArgs e)
+        {
+
+            monthSelections.monthYear = e.Value.ToString();
+            calculateAverage();
+
+        }
+
+
     }
-
-
-
-    float primeRate = 0;
-
-
-
-
-
-
-
-
-    MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
-    //monthSelections.stories = 10;
-
-
-    public void calculateAverage()
-    {
-
-        int day = 0;
-        float rate = 0.0F;
-        int dayAccumulator = 0;
-        float rateAccumulator = 0.0F;
-
-        DateOnly firstDayOfMonth = new DateOnly(2023, 1, 1);
-
-        int daysInMonth = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
-
-        Console.WriteLine(daysInMonth);
-
-
-
-
-
-
-
-
-    }
-
-
-
-    void OnSelectMonthYear(ChangeEventArgs e)
-    {
-
-        monthSelections.monthYear = e.Value.ToString();
-        calculateAverage();
-
-    }
-
-
-}
 
