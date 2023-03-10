@@ -7,8 +7,9 @@
 @using System.Net.Http.Json;
 @using System.Threading;
 
-<!--<PageTitle>Counter One</PageTitle>-->
-<!--<h1>Counter PumpCalculater</h1>-->
+
+
+<PageTitle>Prime Rate monthly average Calculator</PageTitle>
 
 <div class="container text-left">
     <div class="row">
@@ -16,7 +17,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">PRIME RATE STUFF</th>
+                        <th scope="col">Selector:</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,9 +26,9 @@
                             <table class="table">
 
                                 <tbody>
- 
+
                                     <tr>
-                                      
+
                                         <th>Select Year/Month </th>
                                         <td>
                                             <select class="form-control" value="@monthSelections.monthYear" @onchange="@OnSelectMonthYear" style="width:200px">
@@ -39,7 +40,7 @@
                                         </td>
                                     </tr>
 
-                                    
+
                                 </tbody>
                             </table>
                         </td>
@@ -50,15 +51,12 @@
         <div class="col-md-6 text-left">
             <div class="d-none d-md-block">
                 <div class="box"></div>
-
-                <!-- <p role="status">Total: @currentCount</p> -->
-
             </div>
             <div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Total Pump Duty:</th>
+                            <th scope="col">Results:</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,15 +67,14 @@
                                     <tbody>
 
                                         <tr>
-                                            <th>Total Required flow (m³/h)</th>
+                                            <th>Prime rate:</th>
                                             <td>
-                                                
+                                                @primeRate
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Total Dynamic Head (m)</th>
                                             <td>
-                                                
                                             </td>
                                         </tr>
                                     </tbody>
@@ -86,27 +83,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Model</th>
-                            <th scope="col">380V</th>
-                            <th scope="col">220V</th>
-                            <th scope="col">kW</th>
-                            <th scope="col">Pump</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-
-                        
-
-                    </tbody>
-                </table>
-
-
-
-
             </div>
 
 
@@ -117,40 +93,50 @@
 
 
 
-<!-- <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-    -->
+
 
 @code {
 
-    XDocument xDocument = new XDocument();
-    // StreamReader streamReader = new StreamReader(@"bosterpumps.xml");
-  
-    String holdRaw = "empty";
 
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await fetchXML();
-        calculateAverage();
-        // await base.OnInitializedAsync();
-    }
+        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 1, 1), 7.0F));
+        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 3, 25), 8.0F));
 
-    protected async Task fetchXML()
-    {
 
-        holdRaw = await Http.GetStringAsync("sample-data/bosterpumps.xml");
+        foreach (var monthYear in primeRateDates)
+        {
+            Console.WriteLine(monthYear.date);
+        }
+        Console.WriteLine(primeRateDates[0].date);
 
- 
     }
 
 
 
+    class PrimeRateDate
+    {
+        public DateOnly date;
+        public float rate;
+
+        public PrimeRateDate(DateOnly _date, float _rate)
+        {
+            date = _date;
+            rate = _rate;
+        }
+    }
+
+    List<PrimeRateDate> primeRateDates = new List<PrimeRateDate>();
 
 
 
-    List<string> monthYears = new List<string>() { "2023 Jan", "2023 Feb", "2023 Mar", "2023 Apr"};
 
-    
+
+
+    List<string> monthYears = new List<string>() { "2023 Jan", "2023 Feb", "2023 Mar", "2023 Apr" };
+
+
 
 
 
@@ -193,28 +179,40 @@
         }
     }
 
-   
 
 
- 
+    float primeRate = 0;
 
 
 
-    
 
-    
 
-    MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F,"2023 Jan");
+
+
+
+    MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
     //monthSelections.stories = 10;
 
 
     public void calculateAverage()
     {
 
+        int day = 0;
+        float rate = 0.0F;
+        int dayAccumulator = 0;
+        float rateAccumulator = 0.0F;
 
- 
+        DateOnly firstDayOfMonth = new DateOnly(2023, 1, 1);
 
-        
+        int daysInMonth = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
+
+        Console.WriteLine(daysInMonth);
+
+
+
+
+
+
 
 
     }
@@ -230,5 +228,5 @@
     }
 
 
-    }
+}
 
