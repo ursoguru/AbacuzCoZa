@@ -50,7 +50,7 @@
         </div>
         <div class="col-md-6 text-left">
             <div class="d-none d-md-block">
-                <div class="box"></div>
+                <!-- <div class="box"></div>-->
             </div>
             <div>
                 <table class="table">
@@ -67,7 +67,7 @@
                                     <tbody>
 
                                         <tr>
-                                            <th>Prime rate:</th>
+                                            <th>Average Prime Rate:</th>
                                             <td>
                                                 @primeRate
                                             </td>
@@ -96,223 +96,234 @@
 
 
     protected override void OnInitialized()
-    {
-        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 1, 1), 7.0F));
-        primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 3, 25), 8.0F));
-
-
-        foreach (var monthYear in primeRateDates)
         {
-            Console.WriteLine(monthYear.date);
-        }
-        Console.WriteLine(primeRateDates[0].date);
-        calculateAverage();
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2021, 11, 18), 7.25F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 1, 28), 7.5F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 3, 24), 7.75F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 5, 19), 8.25F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 7, 21), 9.0F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 9, 22), 9.75F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2022, 11, 24), 10.5F));
+            primeRateDates.Add(new PrimeRateDate(new DateOnly(2023, 1, 26), 10.75F));
 
-    }
-
-
-
-    class PrimeRateDate
-    {
-        public DateOnly date;
-        public float rate;
-
-        public PrimeRateDate(DateOnly _date, float _rate)
-        {
-            date = _date;
-            rate = _rate;
-        }
-    }
-
-    List<PrimeRateDate> primeRateDates = new List<PrimeRateDate>();
-
-
-
-
-
-
-    List<string> monthYears = new List<string>() { "2023 Jan", "2023 Feb", "2023 Mar", "2023 Apr" };
-
-
-
-
-
-
-    struct MonthSelections
-    {
-        public int apartments;
-        public int stories;
-        public int sinks;
-        public int dishwashers;
-        public int washingmachines;
-        public int showers;
-        public int bathtubs;
-        public int washbasins;
-        public int bidets;
-        public string toilet;
-        public string pipe;
-        public float pipewidth;
-        public float pipelength;
-        public string monthYear;
-
-
-        public MonthSelections(int ten, int two, int one, int zero, string toiletSystem, string pipeSystem, float pipeW, float pipeL, string mYear)
-        {
-            apartments = ten;
-            stories = two;
-            sinks = two;
-            dishwashers = one;
-            washingmachines = one;
-            showers = one;
-            bathtubs = one;
-            washbasins = two;
-            bidets = zero;
-            toilet = toiletSystem;
-            pipe = pipeSystem;
-            pipelength = pipeL;
-            pipewidth = pipeW;
-            monthYear = mYear;
-
-        }
-    }
-
-
-
-    float primeRate = 0;
-
-
-
-
-
-
-
-
-    MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
-    //monthSelections.stories = 10;
-
-
-    public void calculateAverage()
-    {
-
-        int day = 0;
-        float rate = 0.0F;
-        int dayAccumulator = 0;
-        float rateAccumulator = 0.0F;
-
-        DateOnly workingDate;
-        DateOnly lastDayOfMonth;
-
-        // DateOnly firstDayOfMonth = new DateOnly(2023, 3, 1);
-
-        int year; // = 2023;
-        year = Int32.Parse(monthSelections.monthYear.Substring(0,4));
-        int month; // = 3;
-        Console.WriteLine(monthSelections.monthYear.Substring(5));
-        switch (monthSelections.monthYear.Substring(5))
-        {
-
-            case "Jan":
-                month = 1;
-                break;
-            case "Feb":
-                month = 2;
-                break;
-            case "Mar":
-                month = 3;
-                break;
-            case "Apr":
-                month = 4;
-                break;
-            case "May":
-                month = 5;
-                break;
-            case "Jun":
-                month = 6;
-                break;
-            case "Jul":
-                month = 7;
-                break;
-            case "Aug":
-                month = 8;
-                break;
-            case "Sep":
-                month = 9;
-                break;
-            case "Oct":
-                month = 10;
-                break;
-            case "Nov":
-                month = 11;
-                break;
-
-            default:
-                month = 3;
-                break;
-
-        }
-        DateOnly firstDayOfMonth = new DateOnly(year, month, 1);
-        if (month == 12)
-        {
-            DateOnly localDate = new DateOnly(year + 1, 1, 1);
-            lastDayOfMonth = localDate;
-        }
-        else {
-            DateOnly localDate2 = new DateOnly(year, month + 1, 1);
-            lastDayOfMonth = localDate2;
-
-        }
-
-
-
-
-        Console.WriteLine(firstDayOfMonth+":"+lastDayOfMonth);
-
-        workingDate = firstDayOfMonth;
-
-        int daysInMonth = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
-
-        // Console.WriteLine(daysInMonth);
-
-        foreach (var primeRateDate in primeRateDates)
-        {
-
-            if (primeRateDate.date > firstDayOfMonth && primeRateDate.date < lastDayOfMonth)
+            foreach (var monthYear in primeRateDates)
             {
-                day = primeRateDate.date.DayNumber - workingDate.DayNumber;
-                workingDate = primeRateDate.date;
-                dayAccumulator += day;
-                rateAccumulator = rateAccumulator + day * rate;
-
-                Console.WriteLine(dayAccumulator+" "+rateAccumulator);
-                Console.WriteLine(workingDate+":"+rate+" "+day);
+                Console.WriteLine(monthYear.date);
             }
-            rate = primeRateDate.rate;
+            Console.WriteLine(primeRateDates[0].date);
+            calculateAverage();
+
         }
 
-        day = lastDayOfMonth.DayNumber - workingDate.DayNumber;
-        dayAccumulator += day;
-        rateAccumulator = rateAccumulator + day * rate;
-        Console.WriteLine(dayAccumulator + " " + rateAccumulator);
-        Console.WriteLine(workingDate + ":" + rate + " " + day);
 
 
-        primeRate = rateAccumulator/dayAccumulator;
+        class PrimeRateDate
+        {
+            public DateOnly date;
+            public float rate;
+
+            public PrimeRateDate(DateOnly _date, float _rate)
+            {
+                date = _date;
+                rate = _rate;
+            }
+        }
+
+        List<PrimeRateDate> primeRateDates = new List<PrimeRateDate>();
 
 
 
 
 
-    }
+
+        List<string> monthYears = new List<string>() { "2022 Jan", "2022 Feb", "2022 Mar", "2022 Apr",
+        "2022 May", "2022 Jun", "2022 Jul", "2022 Aug", "2022 Sep", "2022 Oct", "2022 Nov", "2022 Dec",
+    "2023 Jan", "2023 Feb" };
 
 
 
-    void OnSelectMonthYear(ChangeEventArgs e)
-    {
 
-        monthSelections.monthYear = e.Value.ToString();
-        calculateAverage();
 
-    }
+        struct MonthSelections
+        {
+            public int apartments;
+            public int stories;
+            public int sinks;
+            public int dishwashers;
+            public int washingmachines;
+            public int showers;
+            public int bathtubs;
+            public int washbasins;
+            public int bidets;
+            public string toilet;
+            public string pipe;
+            public float pipewidth;
+            public float pipelength;
+            public string monthYear;
+
+
+            public MonthSelections(int ten, int two, int one, int zero, string toiletSystem, string pipeSystem, float pipeW, float pipeL, string mYear)
+            {
+                apartments = ten;
+                stories = two;
+                sinks = two;
+                dishwashers = one;
+                washingmachines = one;
+                showers = one;
+                bathtubs = one;
+                washbasins = two;
+                bidets = zero;
+                toilet = toiletSystem;
+                pipe = pipeSystem;
+                pipelength = pipeL;
+                pipewidth = pipeW;
+                monthYear = mYear;
+
+            }
+        }
+
+
+
+        float primeRate = 0;
+
+
+
+
+
+
+
+
+        MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
+        //monthSelections.stories = 10;
+
+
+        public void calculateAverage()
+        {
+
+            int day = 0;
+            float rate = 0.0F;
+            int dayAccumulator = 0;
+            float rateAccumulator = 0.0F;
+
+            DateOnly workingDate;
+            DateOnly lastDayOfMonth;
+
+            // DateOnly firstDayOfMonth = new DateOnly(2023, 3, 1);
+
+            int year; // = 2023;
+            year = Int32.Parse(monthSelections.monthYear.Substring(0,4));
+            int month; // = 3;
+            Console.WriteLine(monthSelections.monthYear.Substring(5));
+            switch (monthSelections.monthYear.Substring(5))
+            {
+
+                case "Jan":
+                    month = 1;
+                    break;
+                case "Feb":
+                    month = 2;
+                    break;
+                case "Mar":
+                    month = 3;
+                    break;
+                case "Apr":
+                    month = 4;
+                    break;
+                case "May":
+                    month = 5;
+                    break;
+                case "Jun":
+                    month = 6;
+                    break;
+                case "Jul":
+                    month = 7;
+                    break;
+                case "Aug":
+                    month = 8;
+                    break;
+                case "Sep":
+                    month = 9;
+                    break;
+                case "Oct":
+                    month = 10;
+                    break;
+                case "Nov":
+                    month = 11;
+                    break;
+
+                default:
+                    month = 12;
+                    break;
+
+            }
+            DateOnly firstDayOfMonth = new DateOnly(year, month, 1);
+            if (month == 12)
+            {
+                DateOnly localDate = new DateOnly(year + 1, 1, 1);
+                lastDayOfMonth = localDate;
+            }
+            else {
+                DateOnly localDate2 = new DateOnly(year, month + 1, 1);
+                lastDayOfMonth = localDate2;
+
+            }
+
+
+
+
+            Console.WriteLine(firstDayOfMonth+":"+lastDayOfMonth);
+
+            workingDate = firstDayOfMonth;
+
+            int daysInMonth = DateTime.DaysInMonth(firstDayOfMonth.Year, firstDayOfMonth.Month);
+
+            // Console.WriteLine(daysInMonth);
+
+
+            foreach (var primeRateDate in primeRateDates)
+            {
+
+                if (primeRateDate.date > firstDayOfMonth && primeRateDate.date < lastDayOfMonth)
+                {
+                    day = primeRateDate.date.DayNumber - workingDate.DayNumber;
+                    workingDate = primeRateDate.date;
+                    dayAccumulator += day;
+                    rateAccumulator = rateAccumulator + day * rate;
+
+                    Console.WriteLine(dayAccumulator + " " + rateAccumulator + " " + rate);
+                    // Console.WriteLine(workingDate+":"+rate+" "+day);
+
+                }
+                if (primeRateDate.date < lastDayOfMonth)
+                {
+                    rate = primeRateDate.rate;
+                }
+            }
+
+            day = lastDayOfMonth.DayNumber - workingDate.DayNumber;
+            dayAccumulator += day;
+            rateAccumulator = rateAccumulator + day * rate;
+            Console.WriteLine(dayAccumulator + " " + rateAccumulator + " "+rate);
+            // Console.WriteLine(workingDate + ":" + rate + " " + day);
+
+
+            primeRate = rateAccumulator/dayAccumulator;
+
+
+
+
+
+        }
+
+
+
+        void OnSelectMonthYear(ChangeEventArgs e)
+        {
+
+            monthSelections.monthYear = e.Value.ToString();
+            calculateAverage();
+
+        }
 
 
     }
