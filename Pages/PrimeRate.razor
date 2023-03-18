@@ -193,7 +193,7 @@
 
 
 
-        MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2023 Jan");
+        MonthSelections monthSelections = new MonthSelections(10, 2, 1, 0, "2 x Flush tank / Cistern", "Steel Pipe ( old )", 39.0F, 70.0F, "2022 Jan");
         //monthSelections.stories = 10;
 
 
@@ -213,7 +213,7 @@
             int year; // = 2023;
             year = Int32.Parse(monthSelections.monthYear.Substring(0,4));
             int month; // = 3;
-            Console.WriteLine(monthSelections.monthYear.Substring(5));
+          //  Console.WriteLine(monthSelections.monthYear.Substring(5));
             switch (monthSelections.monthYear.Substring(5))
             {
 
@@ -290,7 +290,7 @@
                     dayAccumulator += day;
                     rateAccumulator = rateAccumulator + day * rate;
 
-                    Console.WriteLine(dayAccumulator + " " + rateAccumulator + " " + rate);
+                  //  Console.WriteLine(dayAccumulator + " " + rateAccumulator + " " + rate);
                     // Console.WriteLine(workingDate+":"+rate+" "+day);
 
                 }
@@ -303,7 +303,7 @@
             day = lastDayOfMonth.DayNumber - workingDate.DayNumber;
             dayAccumulator += day;
             rateAccumulator = rateAccumulator + day * rate;
-            Console.WriteLine(dayAccumulator + " " + rateAccumulator + " "+rate);
+          //  Console.WriteLine(dayAccumulator + " " + rateAccumulator + " "+rate);
             // Console.WriteLine(workingDate + ":" + rate + " " + day);
 
 
