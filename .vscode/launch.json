@@ -1,0 +1,13 @@
+
+{
+  "configurations": [
+    {
+      "type": "blazorwasm",
+      "request": "launch",
+      "name": "Launch Blazor WebAssembly App",
+      "preLaunchTask": "build",
+      "url": "http://localhost:5000",
+      "browser": "edge"
+    }
+  ]
+}
